@@ -12,6 +12,7 @@
                 <th>Num</th>
                 <th>Pose</th>
                 <th>Memo</th>
+                <th>Type</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -22,9 +23,11 @@
                 <td>{{ pose.num }}</td>
                 <td>{{ pose.pose }}</td>
                 <td>{{ pose.memo }}</td>
+                <td>{{ pose.poseType }}</td>
                 <td>
                     <a href="{{ path('app_pose_show', {'id': pose.id}) }}">show</a>
                     <a href="{{ path('app_pose_edit', {'id': pose.id}) }}">edit</a>
+                    <a href="{{ path('app_pose_down', {'num': pose.num}) }}">down</a>
                 </td>
             </tr>
         {% else %}

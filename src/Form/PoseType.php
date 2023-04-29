@@ -15,6 +15,7 @@ class PoseType extends AbstractType
             ->add('num')
             ->add('pose')
             ->add('memo')
+            ->add('pose_type')
         ;
     }
 

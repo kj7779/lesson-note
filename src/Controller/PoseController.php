@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Pose;
 use App\Form\PoseType;
 use App\Repository\PoseRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,8 +18,32 @@ class PoseController extends AbstractController
     public function index(PoseRepository $poseRepository): Response
     {
         return $this->render('pose/index.html.twig', [
-            'poses' => $poseRepository->findAll(),
+            'poses' => $poseRepository->findBy(['pose_type' => 'yoga'],['num' => 'ASC']),
         ]);
+    }
+
+    #[Route('/down/{num}', name: 'app_pose_down', methods: ['GET'])]
+    public function num_down(EntityManagerInterface $entityManager, int $num,PoseRepository $poseRepository): Response
+    {
+        $num2=$num+1;
+        $pose= $entityManager->getRepository(Pose::class)->findOneBy(['num' => $num]);
+        $pose2= $entityManager->getRepository(Pose::class)->findOneBy(['num' => $num2]);
+
+        if (!$pose2) {
+            return $this->redirectToRoute('app_pose_index', [], Response::HTTP_SEE_OTHER);
+        }
+        if (!$pose) {
+            throw $this->createNotFoundException(
+                'No product found for id '.$num
+            );
+        }
+        $new_num = $num+1;
+        $new_num2=$num2-1;
+        $pose->setNum($new_num);
+        $pose2->setNum($new_num2);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_pose_index', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/new', name: 'app_pose_new', methods: ['GET', 'POST'])]

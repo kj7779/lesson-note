@@ -22,6 +22,9 @@ class Pose
     #[ORM\Column(length: 1000, nullable: true)]
     private ?string $memo = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $pose_type = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -59,6 +62,18 @@ class Pose
     public function setMemo(?string $memo): self
     {
         $this->memo = $memo;
+
+        return $this;
+    }
+
+    public function getPoseType(): ?string
+    {
+        return $this->pose_type;
+    }
+
+    public function setPoseType(string $pose_type): self
+    {
+        $this->pose_type = $pose_type;
 
         return $this;
     }
