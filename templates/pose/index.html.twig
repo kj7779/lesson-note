@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Pose index{% endblock %}
+
+{% block body %}
+    <h1>Pose index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Num</th>
+                <th>Pose</th>
+                <th>Memo</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for pose in poses %}
+            <tr>
+                <td>{{ pose.id }}</td>
+                <td>{{ pose.num }}</td>
+                <td>{{ pose.pose }}</td>
+                <td>{{ pose.memo }}</td>
+                <td>
+                    <a href="{{ path('app_pose_show', {'id': pose.id}) }}">show</a>
+                    <a href="{{ path('app_pose_edit', {'id': pose.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_pose_new') }}">Create new</a>
+{% endblock %}
